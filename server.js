@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 3000;
 
 app.get("/api/post", (req, res) => {
-  db.query("SELECT * FROM blogs ORDER BY created_at DESC", (err, result) => {
+  db.query("SELECT * FROM blog ORDER BY created_at DESC", (err, result) => {
     if (err) return res.status(500).send(err);
     res.json(result);
   });
@@ -22,7 +22,7 @@ app.post("/api/post", (req, res) => {
 
   console.log("Received POST data:", req.body);
 
-  const query = `INSERT INTO blogs (blog_title, blog_content, blog_novel, blog_novelauthor, blog_quote, blog_review) VALUES (?, ?, ?, ?, ? ,?)`;
+  const query = `INSERT INTO blog (blog_title, blog_content, blog_novel, blog_novelauthor, blog_quote, blog_review) VALUES (?, ?, ?, ?, ? ,?)`;
 
   const values = [title, content, author, quote, review, novel];
 
@@ -38,7 +38,7 @@ app.post("/api/post", (req, res) => {
 app.get("/api/post/:id", (req, res) => {
   const blogId = req.params.id;
 
-  db.query("SELECT * FROM blogs WHERE blog_id = ?", [blogId], (err, result) => {
+  db.query("SELECT * FROM blog WHERE blog_id = ?", [blogId], (err, result) => {
     if (err) return res.status(500).json({ error: "Database error" });
     if (result.length === 0)
       return res.status(404).json({ error: "Blog not found" });
@@ -47,6 +47,6 @@ app.get("/api/post/:id", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log(`Server running at  http://localhost:3000`);
+app.listen(PORT, () => {
+  console.log(`Server running at  http://localhost:${PORT}`);
 });

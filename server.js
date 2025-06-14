@@ -47,6 +47,6 @@ app.get("/api/post/:id", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at ${PORT}`);
+app.listen(3000, () => {
+  console.log(`Server running at  http://localhost:3000`);
 });

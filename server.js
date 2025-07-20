@@ -1,6 +1,8 @@
 const express = require("express");
 const db = require("./db");
 const cors = require("cors");
+const upload = require("./upload");
+const cloudinary = require("./cloudinary");
 
 const app = express();
 
@@ -19,12 +21,13 @@ app.get("/api/post", (req, res) => {
 
 app.post("/api/post", (req, res) => {
   const { title, content, author, quote, review, novel } = req.body;
+  const imageUrl = req.file ? req.file.path : null;
 
   console.log("Received POST data:", req.body);
 
-  const query = `INSERT INTO blogs (blog_title, blog_content, blog_novel, blog_novelauthor, blog_quote, blog_review) VALUES (?, ?, ?, ?, ? ,?)`;
+  const query = `INSERT INTO blogs (blog_title, blog_content, blog_novel, blog_novelauthor, blog_quote, blog_review , blog_image) VALUES (?, ?, ?, ?, ? ,?, ?)`;
 
-  const values = [title, content, author, quote, review, novel];
+  const values = [title, content, author, quote, review, novel, imageUrl];
 
   db.query(query, values, (err, result) => {
     if (err) {
